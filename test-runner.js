@@ -56,7 +56,9 @@ try {
   console.error('Failed to load test files:', err);
 }
 
+var defaultReport = require('./default-report');
 var emitter = new EventEmitter();  
+emitter.report = defaultReport;
 emitter.run = function() {
 
   var tests = [];

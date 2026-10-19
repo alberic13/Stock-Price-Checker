@@ -13,6 +13,7 @@
           "controllers/**",
           "models/**",
           "services/**",
+          "default-report.js",
           "assertion-analyser.js",
           "test-runner.js",
           "sample.env"
