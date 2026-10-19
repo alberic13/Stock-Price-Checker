@@ -33,19 +33,28 @@ var Mocha = require('mocha'),
     path = require('path');
 
 var mocha = new Mocha();
-var testDir = './tests'
+var testDir = path.join(__dirname, 'tests');
 
+try {
+  require.resolve('./tests/2_functional-tests.js');
+} catch (e) {}
 
 // Add each .js file to the mocha instance
-fs.readdirSync(testDir).filter(function(file){
-    // Only keep the .js files
-    return file.substr(-3) === '.js';
-
-}).forEach(function(file){
-    mocha.addFile(
-        path.join(testDir, file)
-    );
-});
+try {
+  var dirToScan = fs.existsSync(testDir) ? testDir : (fs.existsSync('./tests') ? './tests' : null);
+  if (dirToScan) {
+    fs.readdirSync(dirToScan).filter(function(file){
+      // Only keep the .js files
+      return file.substr(-3) === '.js';
+    }).forEach(function(file){
+      mocha.addFile(
+        path.join(dirToScan, file)
+      );
+    });
+  }
+} catch (err) {
+  console.error('Failed to load test files:', err);
+}
 
 var emitter = new EventEmitter();  
 emitter.run = function() {

@@ -44,7 +44,13 @@ app.route('/')
     res.sendFile(path.join(__dirname, 'views', 'index.html'));
   });
 
-// Compatibility middleware for modern Node and fcctesting.js
+// Compatibility routes and middleware for modern Node and fcctesting.js
+app.get('/_api/server.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'server.js'));
+});
+app.get('/_api/routes/api.js', (req, res) => {
+  res.type('txt').sendFile(path.join(__dirname, 'routes', 'api.js'));
+});
 app.use('/_api/app-info', (req, res, next) => {
   res._headers = res.getHeaders ? res.getHeaders() : {};
   next();
